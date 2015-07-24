@@ -5,7 +5,7 @@ add_action( 'init', function () {
 	$labels = array(
 		'name'                => _x( 'Split Tests', 'Post Type General Name', 'splitester' ),
 		'singular_name'       => _x( 'Split Test', 'Post Type Singular Name', 'splitester' ),
-		'menu_name'           => __( 'Split Test', 'splitester' ),
+		'menu_name'           => __( 'Split Tests', 'splitester' ),
 		'name_admin_bar'      => __( 'Split Test', 'splitester' ),
 		'parent_item_colon'   => __( 'Parent Test:', 'splitester' ),
 		'all_items'           => __( 'All Tests', 'splitester' ),
@@ -24,7 +24,7 @@ add_action( 'init', function () {
 		'label'               => __( 'splitester', 'splitester' ),
 		'description'         => __( 'Split Tests', 'splitester' ),
 		'labels'              => $labels,
-		'supports'            => array( 'title', 'editor', ),
+		'supports'            => array( 'title' ),
 		'hierarchical'        => false,
 		'public'              => false,
 		'show_ui'             => true,

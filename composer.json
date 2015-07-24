@@ -1,0 +1,22 @@
+{
+	"repositories":[
+		{
+			"type":"composer",
+			"url":"http://wpackagist.org"
+		}
+	],
+	"require": {
+		"wpackagist-plugin/cmb2": "2.0.8"
+	},
+	"autoload": {
+		"files": [
+			"src/bootstrap.php",
+			"vendor/cmb2/init.php"
+		]
+	},
+	"extra": {
+		"installer-paths": {
+			"vendor/{$name}/": ["type:wordpress-plugin", "type:wordpress-theme"]
+		}
+	}
+}
