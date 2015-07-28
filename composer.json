@@ -9,8 +9,9 @@
 		"wpackagist-plugin/cmb2": "2.0.8"
 	},
 	"autoload": {
+		"psr-4": {"RichJenks\\Splitester\\": "src/"},
 		"files": [
-			"src/bootstrap.php",
+			"src/hooks.php",
 			"vendor/cmb2/init.php"
 		]
 	},
