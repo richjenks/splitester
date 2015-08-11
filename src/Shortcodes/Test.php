@@ -16,7 +16,7 @@ class Test {
 	private $test_id;
 
 	/**
-	 * @var int Data for the current variant in 'id' and 'content'
+	 * @var array Data for the current variant in 'name' and 'content'
 	 */
 	private $variant;
 
@@ -39,7 +39,10 @@ class Test {
 		$this->variant = $this->get_variant( $this->test_id );
 
 		// Increment impression count for current variation
-		// $this->record_impression();
+		$this->record_impression( $this->test_id, $this->variant );
+
+		// Record the start of a journey
+		$this->start_journey( $this->test_id, $this->variant );
 
 	}
 
@@ -48,33 +51,58 @@ class Test {
 	 *
 	 * @return string Shortcode output
 	 */
-	public function shortcode() { if ( !$this->error ) return $this->variant['content']; }
+	public function shortcode() { if ( !$this->error ) return do_shortcode( $this->variant['content'] ); }
 
 	/**
 	 * Gets data for a random variant of the current test
 	 *
-	 * @return array Variant ID and content as keys 'key' and 'content'
+	 * @param  int   $test_id Post ID of the test
+	 * @return array Variant name and content as keys 'name' and 'content'
 	 */
 	private function get_variant( $test_id ) {
-		$variants = get_post_meta( $test_id, 'splitester_variants' )[0];
-		var_dump($variants);
+		$variants = get_post_meta( $test_id, 'splitester_variants', true );
 		$count    = count( $variants );
 		$id       = mt_rand( 0, $count - 1 );
-		$result   = [
-			'id'      => $id,
+		$variant  = [
+			'name'    => $variants[ $id ]['splitester_variant_name'],
 			'content' => $variants[ $id ]['splitester_variant_content'],
 		];
-		return $result;
+		return $variant;
 	}
 
 	/**
 	 * Adds 1 to the number of impressions for the current variant
+	 *
+	 * @param int   $test_id Post ID of the test
+	 * @param array $variant Variant name and content
 	 */
-	private function record_impression() {
-		$impressions = get_post_meta( $this->test_id, $this->strings['variant'], true );
-		if ( !is_numeric( $impressions ) ) $impressions = 0;
-		$impressions++;
-		update_post_meta( $this->test_id, $this->strings['variant'], $impressions );
+	private function record_impression( $test_id, $variant ) {
+
+		// Get results for current test
+		$count = get_post_meta( $test_id, 'splitester_results', true );
+
+		// Ensure count for current variant is intialised
+		if ( empty( $count['impressions'][ $variant['name'] ] ) ) $count['impressions'][ $variant['name'] ] = 0;
+
+		// Sort, increment and save impressions
+		ksort( $count['impressions'] );
+		$count['impressions'][ $variant['name'] ]++;
+		update_post_meta( $this->test_id, 'splitester_results', $count );
+
+		var_dump( $count );
+		return $count;
+
+	}
+
+	/**
+	 * Records a session variable marking an in-progress journey
+	 *
+	 * @param int   $test_id Post ID of the test
+	 * @param array $variant Variant name and content
+	 */
+	private function start_journey( $test_id, $variant ) {
+		unset( $_SESSION['splitester'][ $test_id ] );
+		$_SESSION['splitester'][ $test_id ] = $variant['name'];
 	}
 
 }

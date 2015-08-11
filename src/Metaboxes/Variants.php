@@ -28,16 +28,6 @@ class Variants {
 
 		// Fields to be grouped
 		$cmb->add_group_field( $group_field_id, array(
-			'name'    => 'ID',
-			'id'      => 'splitester_variant_id',
-			'type'    => 'hidden',
-			// 'default' => md5(mt_rand()),
-			// 'default' => md5(mt_rand()),
-			// 'attributes' => array(
-			// 	'value' => md5(microtime()),
-			// ),
-		) );
-		$cmb->add_group_field( $group_field_id, array(
 			'name'       => 'Variant Name',
 			'id'         => 'splitester_variant_name',
 			'type'       => 'text',
@@ -49,7 +39,7 @@ class Variants {
 		$cmb->add_group_field( $group_field_id, array(
 			'name'       => 'Content',
 			'id'         => 'splitester_variant_content',
-			'type'       => 'textarea_small',
+			'type'       => 'wysiwyg',
 			'attributes' => array(
 				'required'    => 'true',
 				'placeholder' => 'Variant Content',

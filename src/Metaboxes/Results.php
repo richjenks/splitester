@@ -24,13 +24,9 @@ class Results {
 
 	private function splitester_results() {
 
-		global $wpdb;
-
-		// $id = $_GET['post'];
-		// return $id;
-
-		// $stats =
-
+		$results = $count = get_post_meta( $_GET['post'], 'splitester_results', true );
+		return 'lol';
 		// return file_get_contents(__DIR__ . '/../Views/Results.php');
+
 	}
 }
