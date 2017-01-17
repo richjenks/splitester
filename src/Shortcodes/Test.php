@@ -47,7 +47,7 @@ class Test {
 	}
 
 	/**
-	 * Used by hook to ourput content
+	 * Used by hook to output content
 	 *
 	 * @return string Shortcode output
 	 */
